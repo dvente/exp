@@ -1,0 +1,77 @@
+-[x] write interpeter
+	-[x] make sure read from file works
+	-[x] expressions:
+	 	-[x] exp
+	 	-[x] eval
+	 	-[x] simp
+	 	-[x] print
+	 	-[x] dot
+	 	-[x] diff
+	 	-[x] end
+
+-[x] data tree:
+	-[x] inheret from tree
+	-[x] define type
+	-[x] copy subtree
+	-[x] Token cout struct
+	-[x] clean
+	-[x] correct insert
+	-[static] should extractFirstWord be a memberfuction?
+
+-[x] read:
+	-[x] write parser (pre-order)
+	-[x] convert input to lower case 
+	-[yes]  is correct input always recieved? 
+	-[x] fix signed (e.g. +3)
+
+-[x] simplify:
+	-[x] calculate known expressions (e.g. 21 + 3 = 24)
+	-[x] use properties of 0 and 1 (e.g. E + 0 = E)
+		-[x] divide by 0
+		-[x] 0 divided by something
+	-[x] delete variables (e.g. x - x = 0 or x / x = 1)
+	-[x] does signed stuff work?
+	-[x] implement + signed
+	-[x] check if simplify handles doubles etc
+	-[x] remove children when appropriate
+	-[x] implement tips van Bart
+	-[no] +-3 --3?
+	-[x] pi symbolic
+
+-[x] print (infix)
+
+-[?] evaluate:
+	-[x] replace all instances of prime variable (i.e. x) with number and simplify
+		-[x] if expression contains only one variable or less result should be a number
+		-[x] if expression contains variables x,y,z,... then result should be an expression in y,z,...
+		-[x] differentiate between ints and doubles
+		-[] precision
+
+-[x] differentiate:
+	-[x] (recursive) functions:
+		-[x] chain rule (r) 
+		-[x] product (r)
+		-[x] quotient (r)
+		-[x] sum (r)
+		-[x] sin
+		-[x] cos 
+		-[x] power
+			-[x] fix chain rule add parent tree 
+		-[x] non prime variable
+		-[x] variable
+		-[x] constant
+
+-[x] comments in exptree.h
+	-[x] header
+
+-[x] README
+	-[x] discussion
+	-[x] usage of tester.py
+	-[x] comments in header file
+
+-[x] test script
+	-[x] generate expressions
+		-[x] implement pi
+	-[x] read from command line
+	-[x] pipe output to program
+b

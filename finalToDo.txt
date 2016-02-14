@@ -1,0 +1,5 @@
+- remove assert
+- check indents
+- check private/public
+- check function commentary
+- check const
