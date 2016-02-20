@@ -1,0 +1,69 @@
+Datastructuren - Opdracht 3 - Expressies
+
+Nagekeken door: Bart van Strien
+
+Studenten: 
+	Heleen Otten (1235672)
+	Daniel Vente (1207318)
+
+Datastructuren:
+  Expressieboom:
+  - Inlezen                         (3)
+  - Printen                         
+  - Vereenvoudigen                  (2)
+  - Evalueren                       (4+8)
+  - Differentiëren                  (9)
+  - "Menu"                          (1)
+
+Code:
+  Modulariteit:
+  - OOP                             
+    (Data Hiding, Polymorphism, Inheritance)
+  - Kleine functies                 
+  Robustheid: 
+  - Const-correctness               
+  - Foutafhandeling en Randgevallen 
+  Efficiëntie:
+  - Niet nodeloos ingewikkeld       
+
+Verzorging: 
+  - Commentaar                      (7)
+  - Leesbaarheid                    
+  - Naamgeving                      
+  - Netheid Code                    (5+6)
+  - Elke klasse een eigen file      
+
+======================================
+| Beoordeling: V                     |
+======================================
+
+(1) Het bestand interpreter.cpp ontbreekt.
+
+(2) Er staat nog een saveAsDot ergens middenin de functie, vergeten weg te
+halen?
+
+(3) Een gescheiden parseLeft en parseRight betekent alleen maar dat er meer
+herhaling is, was het niet makkelijker geweest één functie te gebruiken die het
+resultaat returnt? Zeker omdat een deel van deze code ook weer herhaald wordt in
+build.
+
+(4) Het is mij niet helemaal duidelijk waarom evalueren gescheiden is voor een
+integer en een double? Uiteindelijk komt het allemaal als doubles in de boom,
+dus er is geen verschil in precisie.
+
+(5) PRECISION is buiten de ExpTree klasse gedefinieerd, dus doen jullie alle
+code opeens een globale constante cadeau. Als deze in de klasse was gedefinieerd
+dan was de reikwijdte beperkt gebleven tot de klasse, of was het in ieder geval
+ExpTree::PRECISION geweest voor de rest van de code.
+
+(6) Het komt wel aardig uit omdat interpreter.cpp ontbreekt, maar waarom staan
+er een paar globale helper functies die niets met Token te maken hebben in de
+header file van Token?
+
+(7) Normaliter wordt '@param' gevolgd door de naam van de parameter waar het
+over gaat, en daarna de omschrijving. Ook is '@return returns nothing'
+natuurlijk niet echt behulpzaam, het prototype van de functie geeft dit ook al
+aan.
+
+(8) Eval hoeft niet per se te printen, ik kreeg dan ook dubbele prints met mijn
+tests.
