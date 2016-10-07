@@ -34,6 +34,7 @@ Commandline:
    Example:  ./interpreter < instructions
 
 Example instruction file:
+```
 exp / * + 5 3 sin ^ x 2 pi
 diff
 eval -0.2244
@@ -41,6 +42,7 @@ simp
 print
 dot file.txt
 end
+```
 
 syntax:
    - commands are separated by line breaks, 
@@ -49,31 +51,33 @@ syntax:
    - except for 'print', 'dot' and 'end' all commands replace the current tree!
    - file must follow the following grammar:
 
-   -<cmd> <expression> [linebreak]:
-      -<cmd>:
-         -exp <expression>: builds the tree of the given expression.
+   - <cmd> <expression> [linebreak]:
+      - <cmd>:
+         - exp <expression>: builds the tree of the given expression.
                              Expression must be in prefix-notation
-         -eval <value>: evaluates the expression in x at <value>
-         -simp: simplifies the expression and evaluate known expressions
-         -print: prints the saved expression in infix-notation to command line
-         -dot <filename>: saves current expression in <filename> in dot syntax
-         -diff: differentiates current expression with respect to x 
-         -end: ends the program
+         - eval <value>: evaluates the expression in x at <value>
+         - simp: simplifies the expression and evaluate known expressions
+         - print: prints the saved expression in infix-notation to command line
+         - dot <filename>: saves current expression in <filename> in dot syntax
+         - diff: differentiates current expression with respect to x 
+         - end: ends the program
 
-      -<expression>: <binary> <expression> <expression> |^ <expression> <number> 
+      * <expression>: <binary> <expression> <expression> |^ <expression> <number> 
          |<unary> <expression> | <nullary>
-      -<binary>: + | - | * | /
-      -<unary>: sin | cos
-      -<nullary>: <number> | <variable>
-      -<number>: [+|-]<unsigned>[.<unsigned>] | pi
-      -<unsigned>: <digit><unsigned>|<digit>
-      -<digit>: 0 | 1 | ... | 9
-      -<variable>: a | b | ... | z  
+      * <binary>: + | - | * | /
+      * <unary>: sin | cos
+      * <nullary>: <number> | <variable>
+      * <number>: [+|-]<unsigned>[.<unsigned>] | pi
+      * <unsigned>: <digit><unsigned>|<digit>
+      * <digit>: 0 | 1 | ... | 9
+      * <variable>: a | b | ... | z  
 
 tester.py:
 
 python tester.py <depth>
-Example: python tester.py 5
+
+Example: `python tester.py 5`
+
 <depth> is the depth of the expression. Current version generates random 
 has the programme differentiate it and differentiates itself and outputs the 
 two answers for comparison. To have it do something else e.g. evaluate, simplify
@@ -85,22 +89,22 @@ script itself. Make sure to use correct spacing!
 Dependencies
 -------------------------
 
-C++:
-   Tree.h
-      fstream
-      string
-   algorithm
-   sstream
-   iostream
-   cmath
+* C++:
+    * Tree.h
+    * fstream
+    * string
+    * algorithm
+    * sstream
+    * iostream
+    * cmath
 
-Python:
-   sympy
-   random
-   string
-   sys
-   os
-   subprocess 
+* Python:
+   * sympy
+   * random
+   * string
+   * sys
+   * os
+   * subprocess 
 
 -------------------------
 Discussion
