@@ -17,7 +17,7 @@ class ExpTree : public Tree<Token>{
 		* @pre none
 		* @post the expressions are stored in an expression tree
 		**/
-		void build(std::string expr);
+		void build(std::string & expr);
 		/**
 		* @function simplify
 		* @abstract simplifies the expression in the expression tree
@@ -27,26 +27,17 @@ class ExpTree : public Tree<Token>{
 		* @post the expression in the expression tree is simplified
 		**/
 		void simplify();
-		/**
-		* @function evalInt
-		* @abstract evaluates the expression tree in x at int
-		* @param takes an int for the variable x
-		* @return returns nothing
-		* @pre none
-		* @post all instances of x are repaced by the input, the result is a expression
-				in the remaining variables 
-		**/
-		void evalInt(int value);
-		/**
-		* @function evalDouble
-		* @abstract evaluates the expression tree in x at at double
-		* @param takes a double for the variable x
-		* @return returns nothing
-		* @pre none
-		* @post all instances of x are repaced by the input, the result is a expression
-				in the remaining variables 
-		**/
-		void evalDouble(double value);
+
+    /**
+    * @function evalDouble
+    * @abstract evaluates the expression tree in x at at double
+    * @param takes a double for the variable x
+    * @return returns nothing
+    * @pre none
+    * @post all instances of x are repaced by the input, the result is a expression
+            in the remaining variables
+    **/
+		void eval(double value);
 		/**
 		* @function diff
 		* @abstract differentiates the expression tree with respect to x
@@ -123,7 +114,7 @@ class ExpTree : public Tree<Token>{
 		* @pre none
 		* @post the subtree is evaluated for the given value
 		**/
-		void evalDoubleNode(TreeNode<Token>* current, double value);
+		void evalNode(TreeNode<Token> *current, double value);
 		/**
 		* @function diffNode
 		* @abstract recursive function that differentiates a subtree
@@ -146,6 +137,8 @@ class ExpTree : public Tree<Token>{
         const double PRECISION = 0.0000001;
 
     Token parseToken(std::string word);
+
+    TreeNode<Token> *parse(std::string & expr);
 };//ExpTree
 
 #endif

@@ -26,7 +26,9 @@ bool isUnaryOperator(const std::string subExpr);
 * @pre none
 * @post 'word' now contains the first expression and 'target' contains the rest of the string (where the found word is removed)
 **/
-    bool extractFirstWord(std::string original, std::string &word, std::string &target );
+    bool splitOffFirstWord(std::string original, std::string &word, std::string &target );
+
+bool extractFirstWord(std::string & original, std::string &word);
 /**
 * @function isDouble
 * @abstract determines whether or not the string is a double

@@ -17,13 +17,13 @@ bool isOperator(const std::string subExpr){
 
 }
 
-bool isUnaryOperator(const std::string subExpr) const{
+bool isUnaryOperator(const std::string subExpr){
 
     return subExpr == "sin" || subExpr == "cos";
 
 }//isUnaryOperator
 
-bool extractFirstWord(std::string original, std::string &word, std::string &target ){
+bool splitOffFirstWord(std::string original, std::string &word, std::string &target ){
 
     std::string::size_type pos;
     std::istringstream iss(original);
@@ -35,6 +35,24 @@ bool extractFirstWord(std::string original, std::string &word, std::string &targ
     if (pos != std::string::npos){//cursor is still not at the end of the string
         target.erase(pos, word.length());//remove the word we have found
         target.erase(0,1);//remove space at beginning of the string
+        return true;
+    }//if
+    else //no word is found
+        return false;
+
+}//extractFirstWord
+
+bool extractFirstWord(std::string & original, std::string &word){
+
+    std::string::size_type pos;
+    std::istringstream iss(original);
+
+    iss >> word;
+    pos = original.find(word);
+
+    if (pos != std::string::npos){//cursor is still not at the end of the string
+        original.erase(pos, word.length());//remove the word we have found
+        original.erase(0,1);//remove space at beginning of the string
         return true;
     }//if
     else //no word is found

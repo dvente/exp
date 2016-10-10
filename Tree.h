@@ -319,8 +319,7 @@ bool Tree<T>::saveAsDot(const std::string filename) const{
 
 }//Tree::saveAsDot
 
-template <class T>
-void Tree<T>::nodeSaveAsDot(std::ofstream &file, const TreeNode<T>* parent) const{
+template <class T> void Tree<T>::nodeSaveAsDot(std::ofstream &file, const TreeNode<T>* parent) const{
 
 	if(parent == NULL)
 		return;
@@ -341,20 +340,20 @@ void Tree<T>::nodeSaveAsDot(std::ofstream &file, const TreeNode<T>* parent) cons
 
 }
 
-int Tree::getSize() const {
+template <class T> int Tree<T>::getSize() const {
 	return size;
 }
 
-void Tree::setSize(int size) {
+template <class T> void Tree<T>::setSize(int size) {
 	Tree::size = size;
 }
 //Tree:nodeSaveAsDot
 
-void Tree::incSize(){
+template <class T> void Tree<T>::incSize(){
     size++;
 }
 
-void Tree::decSize(){
+template <class T> void Tree<T>::decSize(){
     size--;
 }
 

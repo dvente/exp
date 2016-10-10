@@ -17,7 +17,7 @@ void ExpTree::printInfixNode(std::ostream &out, const TreeNode<Token>* current) 
 	if(current->getInfo().isBinaryOperator()) //output a parenthesis for operator
 		out << "(";
 
-	if(current->getLeft() != NULL)
+	if(current->getLeft() != nullptr )
 		printInfixNode(out, current->getLeft());
 	
 	out << current->getInfo();
@@ -25,7 +25,7 @@ void ExpTree::printInfixNode(std::ostream &out, const TreeNode<Token>* current) 
 	if(current->getInfo().isUnaryOperator())
 		out << "(";
 	
-	if(current->getRight() != NULL)
+	if(current->getRight() != nullptr)
 		printInfixNode(out, current->getRight());
 
 	if(current->getInfo().isBinaryOperator() || current->getInfo().isUnaryOperator())
@@ -173,31 +173,13 @@ void ExpTree::diff(){//call the function on the root
 
 }//diff
 
-void ExpTree::evalIntNode(TreeNode<Token>* current, int value){//evaluates the tree in a int 
-
-	if(current == NULL)//recursion guard
-		return;
-
-	evalIntNode(current->getRight(), value); //first evaluate the children
-	evalIntNode(current->getLeft(), value);
-
-	Token temp;
-
-	if(current->getInfo().type == Token::VARIABLE && current->getInfo().variable == 'x'){//replace any instance of x if you find 
-		temp.type = Token::NUMBER;
-		temp.number = value;
-		current->setInfo(temp);
-	}// var == x
-
-}//evalNode
-
-void ExpTree::evalDoubleNode(TreeNode<Token>* current, double value){//evaluates the expression in a double
+void ExpTree::evalNode(TreeNode<Token> *current, double value){//evaluates the expression in a double
 
 	if(current == NULL)
 		return;
 
-	evalDoubleNode(current->getRight(), value);
-	evalDoubleNode(current->getLeft(), value);
+    evalNode(current->getRight(), value);
+    evalNode(current->getLeft(), value);
 
 	Token temp;
 
@@ -209,17 +191,10 @@ void ExpTree::evalDoubleNode(TreeNode<Token>* current, double value){//evaluates
 
 }//evalNode
 
-//TODO remove the evalInt functionality
-void ExpTree::evalInt(int value){//function call
 
-	evalIntNode(root, value);
-	simplify();
+void ExpTree::eval(double value){//function call
 
-}//eval
-
-void ExpTree::evalDouble(double value){//function call
-
-	evalDoubleNode(root, value);
+    evalNode(root, value);
 	simplify();
 
 }//eval
@@ -532,394 +507,9 @@ TreeNode<Token>* ExpTree::copySubtree(TreeNode<Token>* current){
 
 }//copySubtree
 
+void ExpTree::build(std::string & expr){//build the expression tree from the root
 
-
-void ExpTree::parse(std::string &subExpr, std::string &word, TreeNode<Token>* current, bool left){ //parse the expression as a left child
-
-    //TODO refactor this using std::function
-    //TODO refactor to only one parse function that returns the result
-
-    Token temp;
-
-    if(left){
-        TreeNode<Token>* left = new TreeNode<Token>;//we are parsing left so add left child
-        size++;
-        current->setLeft(left);
-        current->getLeft()->setKey(size);
-    } else {
-        TreeNode<Token>* right = new TreeNode<Token>;//parsing right so new right child is needed
-        size++;
-        current->setRight(right);
-        current->getRight()->setKey(size);
-    }
-
-    if(word.length() > 1){ //word is more than one char
-        if(word[0] == '-' || word[0] == '+' || isdigit(word[0])){//numbers
-            temp.type = Token::NUMBER;
-            if(left)
-                current->getLeft()->setInfo(temp);
-            else
-                current->getRight()->setInfo(temp);
-
-
-            if(word.find(".") != std::string::npos)
-                temp.number = atof(word.c_str());
-            else
-                temp.number = atoi(word.c_str());
-
-
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-            return;
-        }//if
-        else if(word == "pi"){
-            temp.type = Token::PI;
-            temp.number = 3.14159265359;
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-            return;
-        }//if
-        else if(word == "sin"){
-            temp.type = Token::SIN;
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-            extractFirstWord(subExpr, word, subExpr);
-            parse(subExpr, word, current->getLeft(),false);
-            return;
-        }//else
-        else if(word == "cos"){
-            temp.type = Token::COS;
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-            extractFirstWord(subExpr, word, subExpr);
-            parse(subExpr, word, current->getLeft(),false);
-            return;
-        }//else
-    }//if
-    else{//word is single char
-        if(isdigit(word[0])){
-            temp.type = Token::NUMBER;
-            temp.number = atoi(word.c_str());
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-            return;
-        }//if
-        else if(isalpha(word[0])){
-            temp.type = Token::VARIABLE;
-            temp.variable = word[0];
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-            return;
-        }
-
-        else if(isBinaryOperator(word)){
-            if(word == "-"){
-                temp.type = Token::MINUS;
-            }
-            else if(word == "+"){
-                temp.type = Token::PLUS;
-            }
-            else if(word == "^"){
-                temp.type = Token::POW;
-            }
-            else if(word == "*"){
-                temp.type = Token::PRODUCT;
-            }
-            else if(word == "/"){
-                temp.type = Token::DIVIDE;
-            }
-
-            if (left) {
-                current->getLeft()->setInfo(temp);
-            } else {
-                current->getRight()->setInfo(temp);
-            }
-
-            extractFirstWord(subExpr, word, subExpr);
-            parse(subExpr, word, current->getLeft(),true);
-            extractFirstWord(subExpr, word, subExpr);
-            parse(subExpr, word, current->getLeft(),false);
-            return;
-        }
-    }//else
-
-}//parse
-
-
-//
-//void ExpTree::parseLeft(std::string &subExpr, std::string &word, TreeNode<Token>* current){ //parse the expression as a left child
-//
-//	Token temp;
-//	TreeNode<Token>* left = new TreeNode<Token>;//we are parsing left so add left child
-//	size++;
-//	current->setLeft(left);
-//	current->getLeft()->setKey(size);
-//
-//	if(word.length() > 1){ //word is more than one char
-//		if(word[0] == '-' || word[0] == '+' || isdigit(word[0])){//numbers
-//			temp.type = Token::NUMBER;
-//			current->getLeft()->setInfo(temp);
-//
-//			if(word.find(".") != std::string::npos)
-//				temp.number = atof(word.c_str());
-//			else
-//				temp.number = atoi(word.c_str());
-//
-//			current->getLeft()->setInfo(temp);
-//			return;
-//		}//if
-//		else if(word == "pi"){
-//			temp.type = Token::PI;
-//			temp.number = 3.14159265359;
-//			current->getLeft()->setInfo(temp);
-//			return;
-//		}//if
-//		else if(word == "sin"){
-//			temp.type = Token::SIN;
-//			current->getLeft()->setInfo(temp);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, current->getLeft());
-//			return;
-//		}//else
-//		else if(word == "cos"){
-//			temp.type = Token::COS;
-//			current->getLeft()->setInfo(temp);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, current->getLeft());
-//			return;
-//		}//else
-//	}//if
-//	else{//word is single char
-//		if(isdigit(word[0])){
-//			temp.type = Token::NUMBER;
-//			temp.number = atoi(word.c_str());
-//			current->getLeft()->setInfo(temp);
-//			return;
-//		}//if
-//		else if(isalpha(word[0])){
-//			temp.type = Token::VARIABLE;
-//			temp.variable = word[0];
-//			current->getLeft()->setInfo(temp);
-//			return;
-//		}
-//
-//		else if(isBinaryOperator(word)){
-//			if(word == "-"){
-//				temp.type = Token::MINUS;
-//			}
-//			else if(word == "+"){
-//				temp.type = Token::PLUS;
-//			}
-//			else if(word == "^"){
-//				temp.type = Token::POW;
-//			}
-//			else if(word == "*"){
-//				temp.type = Token::PRODUCT;
-//			}
-//			else if(word == "/"){
-//				temp.type = Token::DIVIDE;
-//			}
-//
-//			current->getLeft()->setInfo(temp);
-//
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseLeft(subExpr, word, current->getLeft());
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, current->getLeft());
-//			return;
-//		}
-//	}//else
-//
-//}//parse
-
-//void ExpTree::parseRight(std::string &subExpr, std::string &word, TreeNode<Token>* current){
-//
-//	Token temp;//variable to set correct settings of current.info
-//	TreeNode<Token>* right = new TreeNode<Token>;//parsing right so new right child is needed
-//	size++;
-//	current->setRight(right);
-//	current->getRight()->setKey(size);
-
-//	if(word.length() > 1){
-//		if(word[0] == '-' || word[0] == '+'||isdigit(word[0])){
-//			temp.type = Token::NUMBER;
-//
-//			if(isDouble(word))
-//				temp.number = atof(word.c_str());
-//			else
-//				temp.number = atoi(word.c_str());
-//
-//			current->getRight()->setInfo(temp);
-//			return;
-//		}//if
-//		else if(word == "pi"){
-//			temp.type = Token::PI;
-//			temp.number = 3.14159265359;
-//			current->getRight()->setInfo(temp);
-//			return;
-//		}//if
-//		else if(word == "sin"){
-//			temp.type = Token::SIN;
-//			current->getRight()->setInfo(temp);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, current->getRight());
-//			return;
-//		}//else
-//		else if(word == "cos"){
-//			temp.type = Token::COS;
-//			current->getRight()->setInfo(temp);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, current->getRight());
-//			return;
-//		}//else
-//	}//if
-//	else{
-//		if(isdigit(word[0])){//double
-//			temp.type = Token::NUMBER;
-//			temp.number = atoi(word.c_str());
-//			current->getRight()->setInfo(temp);
-//			return;
-//		}//if
-//		else if(isalpha(word[0])){
-//			temp.type = Token::VARIABLE;
-//			temp.variable = word[0];
-//			current->getRight()->setInfo(temp);
-//			return;
-//		}
-//
-//		else if(isBinaryOperator(word)){
-//
-//			if(word == "-"){
-//				temp.type = Token::MINUS;
-//			}//if -
-//			else if(word == "+"){
-//				temp.type = Token::PLUS;
-//			}//if +
-//			else if(word == "^"){
-//				temp.type = Token::POW;
-//			}//if ^
-//			else if(word == "*"){
-//				temp.type = Token::PRODUCT;
-//			}//if *
-//			else if(word == "/"){
-//				temp.type = Token::DIVIDE;
-//			}//if /
-//
-//			current->getRight()->setInfo(temp);
-//
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseLeft(subExpr, word, current->getRight());
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, current->getRight());
-//			return;
-//		}//is binary operator
-//	}//else
-
-//}//parse
-
-void ExpTree::build(std::string expr){//build the expression tree from the root
-
-	std::string subExpr, word;
-	Token temp;
-	
-	extractFirstWord(expr,word,subExpr);//get word
-	size++;
-
-    root->setInfo(parseToken(word));
-
-	if(isBinaryOperator(word)){
-		
-	}else if(isUnaryOperator(word)){
-
-    }
-
-//	if(word.length() > 1){
-//		if(word[0] == '-' || word[0] == '+' ||isdigit(word[0])){
-//			temp.type = Token::NUMBER;
-//
-//			if(isDouble(word))
-//				temp.number = atof(word.c_str());
-//			else
-//				temp.number = atoi(word.c_str());
-//			root->setInfo(temp);
-//		}//if
-//		else if(word == "pi"){
-//			temp.type = Token::PI;
-//			temp.number = 3.14159265359;
-//			root->setInfo(temp);
-//		}//else if pi
-//		else if(word == "sin"){
-//			temp.type = Token::SIN;
-//			root->setInfo(temp);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, root);
-//		}//else if sin
-//		else if(word == "cos"){
-//			temp.type = Token::COS;
-//			root->setInfo(temp);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, root);
-//		}//else if cos
-//	}//if
-//	else{
-//		if(isdigit(word[0])){
-//			temp.type = Token::NUMBER;
-//			temp.number = atoi(word.c_str());
-//			root->setInfo(temp);
-//		}//if is digit
-//		else if(isalpha(word[0])){
-//			temp.type = Token::VARIABLE;
-//			temp.variable = word[0];
-//			root->setInfo(temp);
-//		}//if is alpha
-//
-//		else if(isBinaryOperator(word)){
-//
-//			if(word == "-"){
-//				temp.type = Token::MINUS;
-//				root->setInfo(temp);
-//			}//if -
-//			else if(word == "+"){
-//				temp.type = Token::PLUS;
-//				root->setInfo(temp);
-//			}//if +
-//			else if(word == "^"){
-//				temp.type = Token::POW;
-//				root->setInfo(temp);
-//			}// if ^
-//			else if(word == "*"){
-//				temp.type = Token::PRODUCT;
-//				root->setInfo(temp);
-//			}// if *
-//			else if(word == "/"){
-//				temp.type = Token::DIVIDE;
-//				root->setInfo(temp);
-//			}//if /
-//
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseLeft(subExpr, word, root);
-//			extractFirstWord(subExpr, word, subExpr);
-//			parseRight(subExpr, word, root);
-//		}//else if is binary operator
-//	}//else
+    root = parse(expr);
 
 }
 
@@ -952,7 +542,8 @@ Token ExpTree::parseToken(std::string word) {
 	}//if
 	else{
         if(word==""){
-            return NULL;
+            temp.type = Token::UD;
+            return temp;
         }
 		else if(isdigit(word[0])){
 			temp.type = Token::NUMBER;
@@ -994,4 +585,33 @@ Token ExpTree::parseToken(std::string word) {
         }
 	}//else
 }
-//build
+
+TreeNode<Token> *ExpTree::parse(std::string & expr) {
+
+    if(expr=="")
+        return nullptr;
+
+    TreeNode<Token>* current = new TreeNode<Token>;
+    size++;
+    current->setKey(size);
+    std::string word;
+    Token token;
+
+    extractFirstWord(expr,word);
+    token = parseToken(word);
+    current->setInfo(token);
+
+    if(token.isNullary())
+        return current;
+
+    else if(token.isBinaryOperator()){
+        current->setLeft(parse(expr));
+        current->setRight(parse(expr));
+
+    }else
+        current->setRight(parse(expr));
+
+    return current;
+}
+
+//TODO setup rules for when you find a UD

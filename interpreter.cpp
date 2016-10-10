@@ -13,7 +13,7 @@ int main(){
 
 		toLower(input);//make sure input is of correct case
 
-		extractFirstWord(input, cmd, expr);
+		splitOffFirstWord(input, cmd, expr);
 		
 		//choose the correct option
 		if(cmd == "exp"){
@@ -22,13 +22,13 @@ int main(){
 //		else if(cmd == "eval"){
 //			extractFirstWord(expr, cmd, expr);
 //			if(isDouble(cmd.c_str()))
-//				expression.evalDouble(atof(cmd.c_str()));
+//				expression.eval(atof(cmd.c_str()));
 //			else
 //				expression.evalInt(atoi(cmd.c_str()));
 //		}
         else if(cmd == "eval"){
-            extractFirstWord(expr, cmd, expr);
-            expression.evalDouble(atof(cmd.c_str()));
+            splitOffFirstWord(expr, cmd, expr);
+            expression.eval(atof(cmd.c_str()));
             //if(isDouble(cmd.c_str()))
             //else
             //    expression.evalInt(atoi(cmd.c_str()));
