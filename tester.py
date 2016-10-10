@@ -1,9 +1,8 @@
-from sympy import *
+import sys
 from random import *
 from string import *
-import sys
-import os
-from subprocess import call, check_output
+from subprocess import check_output
+from sympy import *
 
 cmd = ["exp", "eval", "simp", "print", "diff", "dot", "end"]
 expressions = ["cos", "sin", "+", "-", "*", "/", "^", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -26,7 +25,7 @@ def weighted_choice(choices):
     assert False, "Shouldn't get here"
 
 
-def genNumber(sign, integer):  # still implement pi
+def genNumber(sign, integer):
     if sign:
         if integer:
             return randrange(-100, 0)

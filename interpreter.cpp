@@ -6,32 +6,26 @@ using namespace std;
 
 int main(){
 
-	string input, expr, cmd;
+    string input, cmd;
 	ExpTree expression;
+//    input = "- x x";
+//    expression.build(input);
+//    cout << (expression.root->getLeft()->getInfo() == expression.root->getRight()->getInfo()) ;
+
 
 	while(getline(cin,input)){//read commands until file ends
 
 		toLower(input);//make sure input is of correct case
 
-		splitOffFirstWord(input, cmd, expr);
-		
+        extractFirstWord(input, cmd);
+
 		//choose the correct option
 		if(cmd == "exp"){
-			expression.build(expr);
+            expression.build(input);
 		}
-//		else if(cmd == "eval"){
-//			extractFirstWord(expr, cmd, expr);
-//			if(isDouble(cmd.c_str()))
-//				expression.eval(atof(cmd.c_str()));
-//			else
-//				expression.evalInt(atoi(cmd.c_str()));
-//		}
         else if(cmd == "eval"){
-            splitOffFirstWord(expr, cmd, expr);
+            extractFirstWord(input, cmd);
             expression.eval(atof(cmd.c_str()));
-            //if(isDouble(cmd.c_str()))
-            //else
-            //    expression.evalInt(atoi(cmd.c_str()));
         }
 		else if(cmd == "simp"){
 			expression.simplify();
@@ -40,7 +34,7 @@ int main(){
 			expression.printInfix(cout);
 		}
 		else if (cmd == "dot"){
-			expression.saveAsDot(expr.c_str());
+            expression.saveAsDot(input.c_str());
 		}
 		else if (cmd == "diff"){
 			expression.diff();
@@ -51,8 +45,8 @@ int main(){
 		else{
 			cout << "invalid input... " << endl;
 		}
-	
-	}//while
+
+    }//while
 
 	return 0;
 

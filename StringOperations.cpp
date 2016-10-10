@@ -6,41 +6,23 @@
 #include <algorithm>
 #include <sstream>
 
-bool isBinaryOperator(const std::string subExpr) {
+bool stringIsBinaryOperator(const std::string subExpr) {
 
     return subExpr == "-" || subExpr == "+" || subExpr == "^" || subExpr == "*" || subExpr == "/";
+
 }//isBinaryOperator
 
-bool isOperator(const std::string subExpr){
+bool stringIsOperator(const std::string subExpr) {
 
-    return isBinaryOperator(subExpr) || subExpr == "sin" || subExpr == "cos";
+    return stringIsBinaryOperator(subExpr) || subExpr == "sin" || subExpr == "cos";
 
 }
 
-bool isUnaryOperator(const std::string subExpr){
+bool stringIsUnaryOperator(const std::string subExpr) {
 
     return subExpr == "sin" || subExpr == "cos";
 
 }//isUnaryOperator
-
-bool splitOffFirstWord(std::string original, std::string &word, std::string &target ){
-
-    std::string::size_type pos;
-    std::istringstream iss(original);
-    target = original;
-
-    iss >> word;
-    pos = original.find(word);
-
-    if (pos != std::string::npos){//cursor is still not at the end of the string
-        target.erase(pos, word.length());//remove the word we have found
-        target.erase(0,1);//remove space at beginning of the string
-        return true;
-    }//if
-    else //no word is found
-        return false;
-
-}//extractFirstWord
 
 bool extractFirstWord(std::string & original, std::string &word){
 
@@ -60,7 +42,7 @@ bool extractFirstWord(std::string & original, std::string &word){
 
 }//extractFirstWord
 
-bool isDouble(std::string input){
+bool stringIsDouble(std::string input) {
 
     std::string::size_type pos;
     pos = input.find(".");

@@ -8,103 +8,28 @@
 template <class T>class TreeNode{
 
 public:
-    /**
-    * @function TreeNode (constructor)
-    * @abstract creates a treenode object containing a pointer to its left and right (empty) child and its (empty) info
-    * @param takes no parameters
-    * @return does not return anything
-    * @pre none
-    * @post a object of class treenode is created containing...
-    **/
+
     TreeNode();
-    /**
-    * @function ~TreeNode (destructor)
-    * @abstract deletes the treenode
-    * @param takes no parameters
-    * @return does not return anything
-    * @pre none
-    * @post a object of class treenode is deleted and memory is free
-    **/
     ~TreeNode();
-    /**
-    * @function getLeft
-    * @abstract returns pointer to left child
-    * @param takes no parameters
-    * @return returns pointer to left child
-    * @pre none
-    * @post nothing is changed
-    **/
     TreeNode<T>* getLeft() const;
-    /**
-    * @function getRight
-    * @abstract returns pointer to right child
-    * @param takes no parameters
-    * @return returns pointer to right child
-    * @pre none
-    * @post nothing is changed
-    **/
     TreeNode<T>* getRight() const;
-    /**
-    * @function setLeft
-    * @abstract sets the left child of a treenode
-    * @param takes the pointer to the treenode that is going to be the left child
-    * @return returns nothing
-    * @pre none
-    * @post the left child pointer now points to the provided treenode
-    **/
     void setLeft(TreeNode<T>* node);
-    /**
-    * @function setRight
-    * @abstract sets the right child of a treenode
-    * @param takes the pointer to the treenode that is going to be the right child
-    * @return returns nothing
-    * @pre none
-    * @post the right child pointer now points to the provided treenode
-    **/
     void setRight(TreeNode<T>* node);
-    /**
-    * @function setInfo
-    * @abstract sets the info of a treenode
-    * @param takes the value that is going to be the info of the treenode
-    * @return returns nothing
-    * @pre none
-    * @post info now contains the provided value
-    **/
     void setInfo(T value);
-    /**
-    * @function getInfo
-    * @abstract returns the info of the treenode
-    * @param takes no parameters
-    * @return returns the info of the treenode
-    * @pre none
-    * @post nothing is changed
-    **/
     T getInfo() const;
-    /**
-    * @function getKey
-    * @abstract returns the key of the treenode so that we can make pictures in dotty
-    * @param takes no parameters
-    * @return returns the key of the treenode
-    * @pre none
-    * @post nothing is changed
-    **/
     int getKey() const;
-    /**
-    * @function setKey
-    * @abstract sets the key of the treenode
-    * @param takes the new value of the key
-    * @return returns nothing
-    * @pre none
-    * @post the key is set to the determined value
-    **/
     void setKey(int value);
+    bool operator==(const TreeNode &rhs) const;
+    bool operator!=(const TreeNode &rhs) const;
 
 protected:
-    T info; //info of the treenode
-    int key; //key of the treenode
+    T info; //info of the treeNode
+    int key; //key of the treeNode
     TreeNode<T> *left; //pointer to left child of the treenode
     TreeNode<T> *right; //pointer to right child of the treenode
+
 };
+
 
 template <class T>
 void TreeNode<T>::setKey(int value){
@@ -166,11 +91,41 @@ TreeNode<T>* TreeNode<T>::getLeft() const{
 template <class T>
 TreeNode<T>::TreeNode(){
 
-    left = NULL;
-    right = NULL;
+    left = nullptr;
+    right = nullptr;
     key = 0;
 
-}//TreeNode<T>::TreeNode
+}
+
+template<class T>
+//this check equality between subtrees not necessarily just nodes
+bool TreeNode<T>::operator==(const TreeNode &rhs) const {
+
+    bool leftNull = (left == nullptr || rhs.left == nullptr);
+    bool righNull = (right == nullptr || rhs.right == nullptr);
+
+    bool leftEq, rightEq;
+
+    if (!leftNull)
+        leftEq = (*left == *(rhs.left));
+    else
+        leftEq = (left == rhs.left);
+
+    if (!righNull)
+        rightEq = (*right == *(rhs.right));
+    else
+        rightEq = (right == rhs.right);
+
+
+    return info == rhs.info && leftEq && rightEq;
+}
+
+
+template<class T>
+bool TreeNode<T>::operator!=(const TreeNode &rhs) const {
+    return !(rhs == *this);
+}
+//TreeNode<T>::TreeNode
 
 template <class T>
 TreeNode<T>::~TreeNode(){
