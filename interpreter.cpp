@@ -1,6 +1,6 @@
 #include <iostream>
-#include <stdlib.h>
 #include "expTree.h"
+#include "StringOperations.h"
 
 using namespace std;
 
@@ -19,13 +19,20 @@ int main(){
 		if(cmd == "exp"){
 			expression.build(expr);
 		}
-		else if(cmd == "eval"){
-			extractFirstWord(expr, cmd, expr);
-			if(isDouble(cmd.c_str()))
-				expression.evalDouble(atof(cmd.c_str()));
-			else
-				expression.evalInt(atoi(cmd.c_str()));	
-		}
+//		else if(cmd == "eval"){
+//			extractFirstWord(expr, cmd, expr);
+//			if(isDouble(cmd.c_str()))
+//				expression.evalDouble(atof(cmd.c_str()));
+//			else
+//				expression.evalInt(atoi(cmd.c_str()));
+//		}
+        else if(cmd == "eval"){
+            extractFirstWord(expr, cmd, expr);
+            expression.evalDouble(atof(cmd.c_str()));
+            //if(isDouble(cmd.c_str()))
+            //else
+            //    expression.evalInt(atoi(cmd.c_str()));
+        }
 		else if(cmd == "simp"){
 			expression.simplify();
 		}

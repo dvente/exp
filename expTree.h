@@ -2,9 +2,9 @@
 #define expTree_h
 
 #include "token.h"
-#include "Tree.h" 
+#include "Tree.h"
 
-const double PRECISION = 0.0000001;
+
 
 class ExpTree : public Tree<Token>{
 
@@ -76,7 +76,8 @@ class ExpTree : public Tree<Token>{
 		* @pre none
 		* @post the expression is added to the provided node as a right child
 		**/
-		void parseRight(std::string &subExpr, std::string &word, TreeNode<Token>* current);
+        void parse(std::string &subExpr, std::string &word, TreeNode<Token>* current, bool left);
+		//void parseRight(std::string &subExpr, std::string &word, TreeNode<Token>* current);
 		/**
 		* @function parseLeft
 		* @abstract recursively adds the remaining expressions as a left child
@@ -86,7 +87,7 @@ class ExpTree : public Tree<Token>{
 		* @pre none
 		* @post the expression is added to the provided node as a left child
 		**/
-		void parseLeft(std::string &subExpr, std::string &word, TreeNode<Token>* current);
+		//void parseLeft(std::string &subExpr, std::string &word, TreeNode<Token>* current);
 		/**
 		* @function copySubtree
 		* @abstract copies the intire subtree, including the subroot and retuns the root of the copied tree
@@ -142,6 +143,9 @@ class ExpTree : public Tree<Token>{
 		**/
 		void printInfixNode(std::ostream &out, const TreeNode<Token>* current) const;
 
+        const double PRECISION = 0.0000001;
+
+    Token parseToken(std::string word);
 };//ExpTree
 
 #endif
