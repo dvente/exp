@@ -110,8 +110,7 @@ Dependencies
 Discussion
 -------------------------
 Simplifying:
-The tree can only simplify it's direct children so it cannot join similar 
-expressions somewhere else in the tree. Also things like --3 being converted to 3 aren't supported yet. 
+Things like --3 being converted to 3 aren't supported yet. 
 
 Precision:
 doubles are used, so this tree should not be used for high precision. In addition if the numbers used are very large or small or the difference between the two numbers is very large the rounding errors become very large as well
